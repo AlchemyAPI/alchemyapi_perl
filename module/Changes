@@ -1,0 +1,29 @@
+Revision history for Perl extension AlchemyAPI.
+
+0.1  Wed Feb 11 13:12:27 2009
+	- original version
+0.2
+        - added SetKey() and SetAPIHost() calls,
+          updated API endpoint.
+0.2.1  Wed Dec 2 13:00:00 2009
+        - removed TextGetTopRankedNamedEntities(),
+          URLGetTopRankedNamedEntities() and
+          HTMLGetTopRankedNamedEntities() API calls.
+0.3
+        - Added ConstraintQuery call, general improvements.
+0.4
+        - Added GetRankedKeywords calls, added TextGetCategory call.
+0.4.2
+        - Added parameter object support to all API calls.
+0.5
+	- Added GetRankedConcepts calls and param object.
+0.5.1
+	- Fixed MANIFEST file.
+0.6
+	- Added sentiment analysis support.
+0.7
+	- Added relations extraction support.
+0.8
+	- Added author extraction and targeted sentiment support.
+0.9
+    - Added image extraction, taxonomy, and combined call support.

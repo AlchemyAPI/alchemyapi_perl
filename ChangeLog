@@ -1,0 +1,13 @@
+CHANGELOG
+
+0.9 - Added support for image extraction, taxonomy classifier, and combined call
+0.8 - Added support for author extraction and targeted sentiment analysis
+0.7 - Added support for relations extraction.
+0.6 - Added support for sentiment analysis.
+0.5.1 - Fixed MANIFEST.
+0.5 - Added GetRankedConcepts calls and param object.
+0.4.2 - Added parameters object support to all API calls.
+0.4 - Added GetRankedKeywords calls, added TextGetCategory call.
+0.3 - Added ConstraintQuery call, general improvements.
+0.2 - Added SetKey() call, SetAPIHost() call, updated API endpoint.
+0.1 - Initial Release
