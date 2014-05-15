@@ -27,7 +27,7 @@ INSTALLATION
 To install this module type the following:
 
    cd module	
-   perl Makefile.PL /path/to/Perl/SDK
+   perl Makefile.PL PREFIX=/path/to/Perl/SDK
    make
    make install
 
