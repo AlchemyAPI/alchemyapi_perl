@@ -11,6 +11,7 @@ lib/AlchemyAPI_ConceptParams.pm
 lib/AlchemyAPI_ConstraintQueryParams.pm
 lib/AlchemyAPI_EntityParams.pm
 lib/AlchemyAPI_ImageParams.pm
+lib/AlchemyAPI_ImageKeywordParams.pm
 lib/AlchemyAPI_KeywordParams.pm
 lib/AlchemyAPI_LanguageParams.pm
 lib/AlchemyAPI_RelationParams.pm

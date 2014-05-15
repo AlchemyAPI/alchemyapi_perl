@@ -27,3 +27,5 @@ Revision history for Perl extension AlchemyAPI.
 	- Added author extraction and targeted sentiment support.
 0.9
     - Added image extraction, taxonomy, and combined call support.
+0.10 
+    - Added image keyword extraction.

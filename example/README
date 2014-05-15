@@ -46,6 +46,8 @@ Code Samples:
 
   16. Combined Data API Call: perl combined.pl
 
+  17. Image Keyword Extraction: perl image_keywords.pl
+
 COPYRIGHT AND LICENCE
 
 Copyright (C) 2009-2014 Orchestr8, LLC.

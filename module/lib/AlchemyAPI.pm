@@ -13,6 +13,7 @@ use AlchemyAPI_ConceptParams;
 use AlchemyAPI_ConstraintQueryParams;
 use AlchemyAPI_EntityParams;
 use AlchemyAPI_ImageParams;
+use AlchemyAPI_ImageKeywordParams;
 use AlchemyAPI_KeywordParams;
 use AlchemyAPI_LanguageParams;
 use AlchemyAPI_TaxonomyParams;
@@ -40,7 +41,7 @@ our @EXPORT = qw(
 	
 );
 
-our $VERSION = '0.9';
+our $VERSION = '0.10';
 
 
 use URI::Escape;
@@ -120,6 +121,19 @@ sub SetAPIHost {
 	return $AlchemyAPI_Success;
 }
 
+sub CheckImage {
+    my($self, $img) = @_;
+
+	if ($self->{_apiKey} eq 'blank')
+	{
+		printf STDERR "Load an AlchemyAPI key!\n";
+		return $AlchemyAPI_Error;
+	}
+    
+    return $AlchemyAPI_Success;
+    
+}
+
 sub CheckURL {
 	my($self, $url) = @_;
 
@@ -179,6 +193,53 @@ sub CheckHTML {
 
 	return $AlchemyAPI_Success;
 }
+
+sub POSTWithData {
+	my($self, $APICall, $APICallPrefix, $APIParameter, $data) = @_;
+	my $AlchemyAPI_Arguments = 'apikey='.$self->{_apiKey}.$APIParameter->GetParameterString();
+	my $AlchemyAPI_Endpoint = 'http://'.$self->{_hostPrefix}.'.alchemyapi.com/calls/'.$APICallPrefix.'/'.$APICall.'?'.$AlchemyAPI_Arguments;
+	
+	$APIParameter->ResetBaseParams();
+
+    my $response = $self->{_userAgent}->post($AlchemyAPI_Endpoint,
+                                             Content_Type => 'multipart/form-data',
+                                             Content => $data);
+
+	if ($response->is_success)
+	{
+		my $xp = XML::XPath->new(xml => $response->content);
+
+		my $result = $xp->getNodeText('/results/status');
+
+		if($APIParameter->GetOutputMode() eq AlchemyAPI_BaseParams::OUTPUT_MODE_XML ) {
+			my $result = $xp->getNodeText('/results/status');
+			if ($result ne "OK")
+			{
+				my $resultCode = $xp->getNodeText('/results/statusInfo');
+
+				printf STDERR "Error making AlchemyAPI call: $resultCode\n";
+				return $AlchemyAPI_Error;
+			}
+		}
+		elsif($APIParameter->GetOutputMode() eq AlchemyAPI_BaseParams::OUTPUT_MODE_RDF ) {
+			my $result = $xp->getNodeText('/rdf:RDF/rdf:Description/aapi:ResultStatus');
+			if ($result ne "OK")
+			{
+				printf STDERR "Error making AlchemyAPI call\n";
+				return $AlchemyAPI_Error;
+			}
+		}
+
+		return $response->content;
+	}
+	else
+	{
+        printf "Response not successful!\n";
+		printf STDERR "Error making AlchemyAPI call: $APICall\n";
+		return $AlchemyAPI_Error;
+	}
+}
+
 
 sub POST {
 	my($self, $APICall, $APICallPrefix, $APIParameter) = @_;
@@ -1200,6 +1261,50 @@ sub TextGetCombinedData
     return $self->POST('TextGetCombinedData', 'text', $combinedParams);
 }
 
+sub URLGetRankedImageKeywords {
+    my($self, $url, $combinedParams) = @_;
+    
+    if (! defined $combinedParams)
+    {
+        $combinedParams = new AlchemyAPI_CombinedParams();
+    }
+    if ( ref($combinedParams) ne "AlchemyAPI_ImageKeywordParams") 
+    {
+        throw Error::Simple("Error: Invalid parameter class for GetRankedImageKeywords: ".ref($combinedParams));
+    }
+
+    if ($self->CheckURL($url) eq $AlchemyAPI_Error)
+    {
+        return $AlchemyAPI_Error;
+    }
+
+    $combinedParams->SetUrl($url);
+    
+
+    return $self->GET('URLGetRankedImageKeywords', 'url', $combinedParams);
+    
+}
+
+sub ImageGetRankedImageKeywords {
+    my($self, $image, $combinedParams) = @_;
+    
+    if (! defined $combinedParams)
+    {
+        $combinedParams = new AlchemyAPI_CombinedParams();
+    }
+    if ( ref($combinedParams) ne "AlchemyAPI_ImageKeywordParams") 
+    {
+        throw Error::Simple("Error: Invalid parameter class for GetRankedImageKeywords: ".ref($combinedParams));
+    }
+
+    if ($self->CheckImage($image) eq $AlchemyAPI_Error)
+    {
+        return $AlchemyAPI_Error;
+    }
+
+    return $self->POSTWithData('ImageGetRankedImageKeywords', 'image', $combinedParams, $image);
+}
+
 # Autoload methods go after =cut, and are processed by the autosplit program.
 
 1;
@@ -1448,7 +1553,7 @@ Orchestr8, <questions@alchemyapi.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2009-2010 Orchestr8, LLC.
+Copyright (C) 20.10-2010 Orchestr8, LLC.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.0 or,
