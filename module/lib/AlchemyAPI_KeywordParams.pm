@@ -31,7 +31,7 @@ our @EXPORT = qw(
 	
 );
 
-our $VERSION = '0.5.1';
+our $VERSION = '0.10';
 
 
 use constant {

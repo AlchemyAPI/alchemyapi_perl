@@ -27,11 +27,14 @@ INSTALLATION
 To install this module type the following:
 
    cd module	
-   perl Makefile.PL
+   perl Makefile.PL PREFIX=/path/to/Perl/SDK
    make
    make install
 
 RUNNING EXAMPLES
+
+** NB: You will need to point your perl command to your local files, e.g.
+export PERL5LIB=</path/to/SDK>/module/blib/lib
 
 Several code examples are included to illustrate using the AlchemyAPI
 for named entity extraction, text classification, language identification,
@@ -75,6 +78,8 @@ Code Samples:
   15. Image Extraction: perl image_extract.pl
 
   16. Combined Data API Call: perl combined.pl
+
+  17. Image Keyword Extraction: perl image_keywords.pl
 
 
 COPYRIGHT AND LICENCE
