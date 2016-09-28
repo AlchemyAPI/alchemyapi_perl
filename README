@@ -2,7 +2,7 @@
  AlchemyAPI Perl SDK: version 0.9
 ==================================
 
-This is a Perl implementation of the AlchemyAPI SDK.
+This is a Perl implementation of the AlchemyAPI SDK. - **_Please note that this legacy AlchemyAPI SDK is no longer supported by IBM. Please use the Watson SDKs https://github.com/watson-developer-cloud?utf8=✓&query=sdk_**
 
 DEPENDENCIES
 
